@@ -19,6 +19,8 @@ export const TABLE_2 = {
   name: 'Tabell S2"',
   description: 'CO2-utslipp per personkilometer 1994-2050 i tre scenarioer',
   data: {
+    Sykkel: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    Elbil: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     Personbil: [108, 105, 100, 77, 72, 61, 54, 29, 12, 54, 21, 3],
     Persontog: [14, 10, 8, 7, 7, 6, 7, 6, 3, 7, 3, 0],
     Rutebusser: [72, 63, 78, 64, 61, 57, 64, 58, 54, 58, 51, 46],
@@ -59,6 +61,6 @@ export const TABLE_4 = {
 }
 
 export const EQUIVALENTS = [
-  { text: 'biff', value: 13.3 },
-  { text: 'egg', value: 1.95 }
+  { text: 'kilo biff', value: 13.3, calculate: (value) => value },
+  { text: 'egg', value: 1.95, calculate: (value) => Math.round(value / 0.063) }
 ]

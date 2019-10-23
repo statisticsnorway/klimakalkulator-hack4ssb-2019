@@ -1,0 +1,19 @@
+.ui.cards > .green.card, .ui.green.card, .ui.green.cards > .card {
+  box-shadow: 0 0 0 1px #d4d4d5, 0 8px 0 0 #21ba45, 0 1px 3px 0 #d4d4d5
+}
+
+.ui.cards > .olive.card, .ui.olive.card, .ui.olive.cards > .card {
+  box-shadow: 0 0 0 1px #d4d4d5, 0 8px 0 0 #b5cc18, 0 1px 3px 0 #d4d4d5
+}
+
+.ui.cards > .yellow.card, .ui.yellow.card, .ui.yellow.cards > .card {
+  box-shadow: 0 0 0 1px #d4d4d5, 0 8px 0 0 #fbbd08, 0 1px 3px 0 #d4d4d5
+}
+
+.ui.cards > .orange.card, .ui.orange.card, .ui.orange.cards > .card {
+  box-shadow: 0 0 0 1px #d4d4d5, 0 8px 0 0 #f2711c, 0 1px 3px 0 #d4d4d5
+}
+
+.ui.cards > .red.card, .ui.red.card, .ui.red.cards > .card {
+  box-shadow: 0 0 0 1px #d4d4d5, 0 8px 0 0 #db2828, 0 1px 3px 0 #d4d4d5
+}
