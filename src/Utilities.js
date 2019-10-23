@@ -9,11 +9,11 @@ export const METADATA = {
   },
   Personbil: {
     icon: 'car',
-    description: 'Gjennomsnittlig besinbil i en norsk husholdning'
+    description: 'Gjennomsnittlig bensinbil i en norsk husholdning'
   },
   Persontog: {
     icon: 'train',
-    description: 'Passasjertog der '
+    description: 'Passasjertog der ...'
   },
   Rutebusser: {
     icon: 'bus',

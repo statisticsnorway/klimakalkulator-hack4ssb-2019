@@ -61,6 +61,18 @@ export const TABLE_4 = {
 }
 
 export const EQUIVALENTS = [
-  { text: 'kilo biff', value: 13.3, calculate: (value) => value },
-  { text: 'egg', value: 1.95, calculate: (value) => Math.round(value / 0.063) }
+  {
+    text: 'kilo biff',
+    description: '',
+    icon: 'food',
+    value: 13.3,
+    calculate: (value) => value
+  },
+  {
+    text: 'egg',
+    description: '',
+    icon: 'food',
+    value: 1.95,
+    calculate: (value) => Math.round(value / 0.063)
+  }
 ]

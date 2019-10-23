@@ -1,0 +1,61 @@
+kind: pipeline
+name: klimakalkulator-hack4ssb-2019
+
+steps:
+  - name: install-and-build
+    image: node:current-alpine
+    commands:
+      - yarn install
+      - CI=true yarn build
+    when:
+      event:
+        - pull_request
+        - push
+
+  - name: publish-docker
+    image: plugins/gcr
+    settings:
+      repo: prod-bip/klimakalkulator-hack4ssb-2019
+      registry: eu.gcr.io
+      tags: "${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:8}"
+      json_key:
+        from_secret: gcr_credentials
+    when:
+      branch:
+        - master
+      event:
+        - push
+
+  - name: slack
+    image: plugins/slack
+    settings:
+      webhook:
+        from_secret: slack_webhook_url
+#        channel: bip-ci-test -- Choosing channel is not enabled yet
+      template: >
+        {{#success build.status}}
+          *Success*! {{uppercasefirst build.event}} - {{build.link}}. Good job *{{build.author}}*!
+        {{else}}
+          *Failure*! {{uppercasefirst build.event}} - {{build.link}}. Your fault *{{build.author}}*!
+        {{/success}}
+    when:
+      status: [ success, failure ]
+
+trigger:
+  ref:
+    - refs/heads/master
+    - refs/pull/*/head
+
+---
+kind: secret
+name: gcr_credentials
+get:
+  path: drone-gcr-credentials
+  name: gcr-credentials
+
+---
+kind: secret
+name: slack_webhook_url
+get:
+  path: drone-slack-webhook-url
+  name: slack-webhook-url

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Card, Divider, Form, Icon, Input, Segment } from 'semantic-ui-react'
+import { Card, Divider, Form, Icon, Input, List, Segment } from 'semantic-ui-react'
 
 import { EQUIVALENTS, TABLE_1, TABLE_2 } from './Emissions'
 import { METADATA } from './Utilities'
@@ -38,7 +38,7 @@ function App () {
             return (
               <Card key={key} color={color}>
                 <Card.Content>
-                  <Icon name={METADATA[key].icon} size='big' style={{ float: 'right' }} />
+                  <Icon name={METADATA[key].icon} size='huge' style={{ float: 'right' }} />
                   <Card.Header>
                     {key.includes('aa') ? key.replace('aa', 'å') : key}
                   </Card.Header>
@@ -46,11 +46,21 @@ function App () {
                   <Card.Meta>{`Energiforbruk: `}<b>{`${mj} MJ`}</b></Card.Meta>
                   <Card.Description>
                     <Divider hidden />
-                    {EQUIVALENTS.map(element =>
-                      <p key={element.text}>
-                        {`Antall ${element.text}: ${+element.calculate((co2 / element.value)).toFixed(2)}`}
-                      </p>
-                    )}
+                    <List>
+                      {EQUIVALENTS.map(element =>
+                        <List.Item key={element.text}>
+                          <List.Icon name={element.icon} />
+                          <List.Content>
+                            <List.Header>
+                              {`Antall ${element.text}: ${+element.calculate((co2 / element.value)).toFixed(2)}`}
+                            </List.Header>
+                            <List.Description>
+                              {element.description}
+                            </List.Description>
+                          </List.Content>
+                        </List.Item>
+                      )}
+                    </List>
                   </Card.Description>
                 </Card.Content>
                 <Card.Content extra>
