@@ -3,8 +3,8 @@ import { Icon, Search } from 'semantic-ui-react'
 import { multi } from 'air-port-codes-node'
 
 const apca = multi({
-  key: '8da4440ae8',
-  secret: 'd6746550b0d0f74',
+  key: '',
+  secret: '',
   limit: 5
 })
 
