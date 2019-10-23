@@ -1,62 +1,67 @@
 export const METADATA = {
   Sykkel: {
-    icon: 'bicycle',
-    description: ''
+    icon: 'bicycle'
   },
   Elbil: {
-    icon: 'power cord',
-    description: ''
+    icon: 'power cord'
   },
   Personbil: {
-    icon: 'car',
-    description: 'Gjennomsnittlig bensinbil i en norsk husholdning'
+    icon: 'car'
   },
   Persontog: {
-    icon: 'train',
-    description: 'Passasjertog der ...'
+    icon: 'train'
   },
   Rutebusser: {
-    icon: 'bus',
-    description: 'Rutebuss med 50 sitteplasser der ditt utslipp tilsvarer 1/50 av bussens utslipp og 80% av bussen er full'
+    icon: 'bus'
   },
   Drosjer: {
-    icon: 'taxi',
-    description: ''
+    icon: 'taxi'
   },
   Fly: {
-    icon: 'plane',
-    description: ''
+    icon: 'plane'
   },
   Ferger: {
-    icon: 'ship',
-    description: ''
+    icon: 'ship'
   },
   Mopeder: {
-    icon: 'motorcycle',
-    description: ''
+    icon: 'motorcycle'
   },
   Motorsykler: {
-    icon: 'motorcycle',
-    description: ''
+    icon: 'motorcycle'
   },
   Hurtigruta: {
-    icon: 'ship',
-    description: ''
+    icon: 'ship'
   },
   Hurtigbaat: {
-    icon: 'ship',
-    description: ''
+    icon: 'ship'
   },
   Lastebil: {
-    icon: 'truck',
-    description: ''
+    icon: 'truck'
   },
   Skip: {
-    icon: 'ship',
-    description: ''
+    icon: 'ship'
   },
   Jernbane: {
-    icon: 'train',
-    description: ''
+    icon: 'train'
   }
+}
+
+const earthRadiusKm = 6371
+
+const degreesToRadians = (degrees) => {
+  return degrees * Math.PI / 180
+}
+
+export const distanceInKmBetweenEarthCoordinates = (lat1, lon1, lat2, lon2) => {
+  const dLat = degreesToRadians(lat2 - lat1)
+  const dLon = degreesToRadians(lon2 - lon1)
+
+  lat1 = degreesToRadians(lat1)
+  lat2 = degreesToRadians(lat2)
+
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2)
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+
+  return earthRadiusKm * c
 }

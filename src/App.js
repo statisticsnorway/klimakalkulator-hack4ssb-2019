@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
-import { Card, Divider, Form, Icon, Input, List, Segment } from 'semantic-ui-react'
+import React, { useEffect, useState } from 'react'
+import { Card, Divider, Form, Grid, Icon, Input, List, Segment } from 'semantic-ui-react'
 
 import { EQUIVALENTS, TABLE_1, TABLE_2 } from './Emissions'
-import { METADATA } from './Utilities'
+import { distanceInKmBetweenEarthCoordinates, METADATA } from './Utilities'
+import AirportSearch from './AirportSearch'
 
 const calculateCo2 = (value, distance, people) => +(((value * distance) / 1000) / people).toFixed(2)
 const calculateMJ = (value, distance, people) => +(value * distance * people).toFixed(0)
@@ -11,20 +12,41 @@ const findColor = (value) => value < 50 ? 'green' : value < 200 ? 'olive' : valu
 function App () {
   const [distance, setDistance] = useState(0)
   const [people, setPeople] = useState(1)
+  const [airport1, setAirport1] = useState({ latitude: '', longitude: '' })
+  const [airport2, setAirport2] = useState({ latitude: '', longitude: '' })
+
+  useEffect(() => {
+    try {
+      const distanceAirports = distanceInKmBetweenEarthCoordinates(airport1.latitude, airport1.longitude, airport2.latitude, airport2.longitude)
+
+      setDistance(distanceAirports)
+    } catch (error) {
+      console.log(error)
+    }
+  }, [airport1, airport2])
 
   return (
     <Segment basic>
+      <Grid columns='equal'>
+        <Grid.Column>
+          <AirportSearch />
+        </Grid.Column>
+        <Grid.Column>
+          <AirportSearch />
+        </Grid.Column>
+      </Grid>
+      <Divider hidden />
       <Form size='huge'>
         <Form.Group widths='equal'>
           <Form.Field>
-            <Input label={{ color: 'teal', content: 'Avstand (i km):' }} placeholder='Avstand (i km)' name='distance'
-                   value={distance} onChange={(event) => setDistance(event.target.value < 0 ? 0 : event.target.value)}
-                   fluid type='number' />
+            <Input label={{ color: 'teal', content: 'Avstand (i km):' }} placeholder='Avstand (i km)' value={distance}
+                   onChange={(event) => setDistance(event.target.value < 0 ? 0 : event.target.value)} fluid
+                   type='number' />
           </Form.Field>
           <Form.Field>
-            <Input label={{ color: 'teal', content: 'Antall personer:' }} placeholder='Antall personer' name='people'
-                   value={people} onChange={(event) => setPeople(event.target.value < 1 ? 1 : event.target.value)} fluid
-                   type='number' />
+            <Input label={{ color: 'teal', content: 'Antall personer:' }} placeholder='Antall personer' value={people}
+                   onChange={(event) => setPeople(event.target.value < 1 ? 1 : event.target.value)} fluid
+                   type='number' disabled={true} />
           </Form.Field>
         </Form.Group>
       </Form>
@@ -63,14 +85,12 @@ function App () {
                     </List>
                   </Card.Description>
                 </Card.Content>
-                <Card.Content extra>
-                  {METADATA[key].description}
-                </Card.Content>
               </Card>
             )
           }
         )}
       </Card.Group>
+      <Divider hidden />
     </Segment>
   )
 }

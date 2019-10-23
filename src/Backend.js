@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 const axios = require('axios').default
 
-export const BackendApi = (url) => {
+export const BackendApi = (query) => {
   const [doFetch, setDoFetch] = useState(false)
   const [data, setData] = useState({})
   const [loading, setLoading] = useState(false)
@@ -14,7 +14,15 @@ export const BackendApi = (url) => {
       setLoading(true)
 
       try {
-        const response = await axios(url)
+        const response = await axios({
+          method: 'post',
+          url: process.env.REACT_APP_AIR_PORT_CODES + query + '&limit=5',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'APC-Auth': '8da4440ae8',
+            'APC-Auth-Secret': 'd6746550b0d0f74'
+          }
+        })
 
         setData(response)
       } catch (error) {
@@ -27,7 +35,7 @@ export const BackendApi = (url) => {
     if (doFetch) {
       fetchData().then()
     }
-  }, [url, doFetch])
+  }, [query, doFetch])
 
   return [{ data, loading, error }, setDoFetch]
 }
