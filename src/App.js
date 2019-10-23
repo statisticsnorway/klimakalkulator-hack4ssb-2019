@@ -6,7 +6,7 @@ import { METADATA } from './Utilities'
 
 const calculateCo2 = (value, distance, people) => +(((value * distance) / 1000) / people).toFixed(2)
 const calculateMJ = (value, distance, people) => +(value * distance * people).toFixed(0)
-const findColor = (value) => value < 50 ? 'green' : value < 200 ? 'olive' : value < 500 ? 'yellow' : value < 2000 ? 'orange' : 'red'
+const findColor = (value) => value < 50 ? 'green' : value < 200 ? 'olive' : value < 500 ? 'grey' : value < 2000 ? 'blue' : 'red'
 
 function App () {
   const [distance, setDistance] = useState(0)
