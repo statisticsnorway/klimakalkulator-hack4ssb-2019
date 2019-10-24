@@ -1585,6 +1585,11 @@ adjust-sourcemap-loader@2.0.0:
     object-path "0.11.4"
     regex-parser "2.2.10"
 
+air-port-codes-node@^1.3.7:
+  version "1.3.7"
+  resolved "https://registry.yarnpkg.com/air-port-codes-node/-/air-port-codes-node-1.3.7.tgz#a57a673b5e5dbb28eebb3848d343e9ed34fe43a7"
+  integrity sha512-jHB5Q6V5gCuClX1N7Cb2FGuQUqQF0CddQ4LgzMhmAdby99QV6ZNg775M6SCqdFrdGlwBHBYBZxiLaUKEia3QBw==
+
 ajv-errors@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/ajv-errors/-/ajv-errors-1.0.1.tgz#f35986aceb91afadec4102fbd85014950cefa64d"
