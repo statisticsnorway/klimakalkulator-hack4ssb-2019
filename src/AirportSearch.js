@@ -3,12 +3,12 @@ import { Icon, Search } from 'semantic-ui-react'
 import { multi } from 'air-port-codes-node'
 
 const apca = multi({
-  key: '',
-  secret: '',
+  key: '8da4440ae8',
+  secret: 'd6746550b0d0f74',
   limit: 5
 })
 
-function AirportSearch () {
+function AirportSearch ({ setAirportGps, whichWay }) {
   const [query, setQuery] = useState('')
   const [airports, setAirports] = useState([])
   const [airport, setAirport] = useState('')
@@ -45,7 +45,7 @@ function AirportSearch () {
     <>
       {message && <span><Icon color='orange' name='info circle' />{message}</span>}
       <Search
-        placeholder='Flyplass'
+        placeholder={`${whichWay} flyplass`}
         value={airport}
         results={airports}
         loading={isLoading}
@@ -56,6 +56,7 @@ function AirportSearch () {
         onResultSelect={
           (event, { result }) => {
             setAirport(result.title)
+            setAirportGps({ latitude: result.latitude, longitude: result.longitude })
           }
         }
         noResultsMessage='Fant ingen...'
