@@ -10,11 +10,10 @@ import {
   Icon,
   Input,
   List,
-  Segment,
+  Message,
   Statistic
 } from 'semantic-ui-react'
 
-import { EQUIVALENTS, TABLE_1, TABLE_2 } from '../Emissions'
 import {
   calculateCo2,
   calculateMJ,
@@ -25,12 +24,12 @@ import {
   TRANSPORT_TYPES
 } from '../Utilities'
 import AirportSearch from '../AirportSearch'
+import { EQUIVALENTS, TABLE_1, TABLE_2 } from '../Emissions'
 
 const travelPoint = { transportType: '', distance: 0 }
 
 function Travel () {
   const [totalDistance, setTotalDistance] = useState(0)
-  const [people, setPeople] = useState(1)
   const [airport1, setAirport1] = useState({ latitude: '', longitude: '' })
   const [airport2, setAirport2] = useState({ latitude: '', longitude: '' })
   const [travelPoints, setTravelPoints] = useState([travelPoint])
@@ -67,7 +66,7 @@ function Travel () {
   useEffect(() => {
     const totalCo2 = +travelPoints.reduce((sum, current) => {
       if (current.transportType !== '') {
-        return sum + calculateCo2(TABLE_2.data[current.transportType][3], current.distance, people)
+        return sum + calculateCo2(TABLE_2.data[current.transportType][3], current.distance)
       } else {
         return sum
       }
@@ -75,7 +74,7 @@ function Travel () {
 
     const totalMj = +travelPoints.reduce((sum, current) => {
       if (current.transportType !== '') {
-        return sum + calculateMJ(TABLE_1.data[current.transportType][3], current.distance, people)
+        return sum + calculateMJ(TABLE_1.data[current.transportType][3], current.distance)
       } else {
         return sum
       }
@@ -84,21 +83,18 @@ function Travel () {
     const color = findColor(totalCo2)
 
     setTotal({ co2: totalCo2, mj: totalMj, color: color })
-  }, [people, travelPoints])
+  }, [travelPoints])
 
   return (
-    <Segment basic>
+    <>
+      <Message info content='Tallene kalkuleres med en gang du angir transportmiddel og avstand' icon='info'
+               size='big' />
       <Form size='huge'>
-        <Form.Field>
-          <Input label={{ color: 'teal', content: 'Antall personer:' }} placeholder='Antall personer' value={people}
-                 onChange={(event) => setPeople(event.target.value < 1 ? 1 : event.target.value)} fluid
-                 type='number' disabled={true} />
-        </Form.Field>
         {travelPoints.map((travelPoint, index) => {
             if (travelPoint.transportType === 'Fly') {
               return (
                 <Fragment key={index}>
-                  <Header as='h4' content={`Del ${index + 1} av ruta`} />
+                  <Header as='h3' content={`Del ${index + 1} av reisen`} />
                   <Form.Group widths='equal'>
                     <Form.Field>
                       <Grid columns='equal'>
@@ -110,7 +106,7 @@ function Travel () {
                         </Grid.Column>
                       </Grid>
                     </Form.Field>
-                    <Form.Field style={{ marginTop: '0.4em' }}>
+                    <Form.Field>
                       <Input label={{ color: 'teal', content: 'Avstand (i km):' }} placeholder='Avstand (i km)'
                              value={travelPoint.distance} readOnly={true} fluid type='number'
                       />
@@ -121,10 +117,11 @@ function Travel () {
             } else {
               return (
                 <Fragment key={index}>
-                  <Header as='h4' content={`Del ${index + 1} av ruta`} />
+                  <Header as='h3' content={`Del ${index + 1} av reisen`} />
                   <Form.Group widths='equal' key={index}>
                     <Form.Field>
                       <Dropdown options={TRANSPORT_TYPES} fluid search selection value={travelPoint.transportType}
+                                placeholder={`Transportmiddel ${index + 1}`}
                                 onChange={(event, { value }) => {
                                   const newTravelPoints = JSON.parse(JSON.stringify(travelPoints))
                                   newTravelPoints[index].transportType = value
@@ -134,13 +131,13 @@ function Travel () {
                     </Form.Field>
                     <Form.Field>
                       <Input label={{ color: 'teal', content: 'Avstand (i km):' }} placeholder='Avstand (i km)'
-                             value={travelPoint.distance}
+                             value={travelPoint.distance} type='number' fluid
                              onChange={(event) => {
                                const newTravelPoints = JSON.parse(JSON.stringify(travelPoints))
                                newTravelPoints[index].distance = event.target.value < 0 ? 0 : event.target.value
                                setTravelPoints(newTravelPoints)
-                             }} fluid
-                             type='number' />
+                             }}
+                      />
                     </Form.Field>
                   </Form.Group>
                 </Fragment>
@@ -158,15 +155,15 @@ function Travel () {
           }} />
         </Grid.Column>
         <Grid.Column>
-          <Statistic color='blue' floated='right' label='Total distanse' value={totalDistance} />
+          <Statistic color='blue' floated='right' label='Total distanse' value={`${totalDistance} km`} />
         </Grid.Column>
       </Grid>
       <Divider hidden />
       <Card.Group centered stackable itemsPerRow={4}>
         {travelPoints.length !== 0 && travelPoints.map((element, index) => {
             if (element.transportType !== '') {
-              const co2 = calculateCo2(TABLE_2.data[element.transportType][3], element.distance, people)
-              const mj = TABLE_1.data.hasOwnProperty(element.transportType) ? calculateMJ(TABLE_1.data[element.transportType][3], element.distance, people) : 0
+              const co2 = calculateCo2(TABLE_2.data[element.transportType][3], element.distance)
+              const mj = TABLE_1.data.hasOwnProperty(element.transportType) ? calculateMJ(TABLE_1.data[element.transportType][3], element.distance) : 0
               const color = findColor(co2)
 
               return (
@@ -174,7 +171,7 @@ function Travel () {
                   <Card.Content>
                     <Icon name={ICONS[element.transportType]} size='huge' style={{ float: 'right' }} />
                     <Card.Header>
-                      {element.transportType.includes('aa') ? element.transportType.replace('aa', 'å') : element.transportType}
+                      {element.transportType.includes('aa') ? element.transportType.replace('aa', 'å') : element.transportType === 'Bil' ? `${element.transportType} (bensin/diesel)` : element.transportType}
                     </Card.Header>
                     <Card.Meta>{`Utslipp: `}<b>{`${co2} kg/CO`}<sub>2</sub>e</b></Card.Meta>
                     <Card.Meta>{`Energiforbruk: `}<b>{`${mj} MJ`}</b></Card.Meta>
@@ -183,7 +180,10 @@ function Travel () {
                       <List>
                         {EQUIVALENTS.map(element =>
                           <List.Item key={element.text}>
-                            <List.Icon name={element.icon} />
+                            {element.text === 'egg' ?
+                              <List.Icon flipped='vertically' name={element.icon} color={element.color} />
+                              :
+                              <List.Icon name={element.icon} color={element.color} />}
                             <List.Content>
                               <List.Header>
                                 {`Antall ${element.text}: ${+element.calculate((co2 / element.value)).toFixed(2)}`}
@@ -224,7 +224,10 @@ function Travel () {
               <List>
                 {EQUIVALENTS.map(element =>
                   <List.Item key={element.text}>
-                    <List.Icon name={element.icon} />
+                    {element.text === 'egg' ?
+                      <List.Icon flipped='vertically' name={element.icon} color={element.color} />
+                      :
+                      <List.Icon name={element.icon} color={element.color} />}
                     <List.Content>
                       <List.Header>
                         {`Antall ${element.text}: ${+element.calculate((total.co2 / element.value)).toFixed(2)}`}
@@ -241,7 +244,7 @@ function Travel () {
         </Card>
         }
       </Card.Group>
-    </Segment>
+    </>
   )
 }
 

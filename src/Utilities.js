@@ -20,8 +20,8 @@ export const TRANSPORT_TYPES = Object.entries(ICONS).map(([key, value]) => ({
   icon: value
 }))
 
-export const calculateCo2 = (value, distance, people) => +(((value * distance) / 1000) / people).toFixed(2)
-export const calculateMJ = (value, distance, people) => +(value * distance * people).toFixed(0)
+export const calculateCo2 = (value, distance) => +(((value * distance) / 1000)).toFixed(2)
+export const calculateMJ = (value, distance) => +(value * distance).toFixed(0)
 export const findColor = (value) => value < 50 ? 'green' : value < 200 ? 'olive' : value < 500 ? 'yellow' : value < 2000 ? 'orange' : 'red'
 export const calculateSmiley = (value) => value < 50 ? 'smile' : value < 200 ? 'meh' : value < 500 ? 'meh' : value < 2000 ? 'meh' : 'frown'
 
