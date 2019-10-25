@@ -43,7 +43,7 @@ function AirportSearch ({ setAirportGps, whichWay }) {
 
   return (
     <>
-      {message && <span><Icon color='orange' name='info circle' />{message}</span>}
+      {message && <span style={{fontSize: '0.7em'}}><Icon color='orange' name='info circle' />{message}</span>}
       <Search
         placeholder={`${whichWay} flyplass`}
         value={airport}
@@ -61,7 +61,7 @@ function AirportSearch ({ setAirportGps, whichWay }) {
         }
         noResultsMessage='Fant ingen...'
         fluid
-        size='big'
+        size='small'
       />
     </>
   )

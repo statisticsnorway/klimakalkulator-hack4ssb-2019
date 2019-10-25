@@ -38,19 +38,22 @@ export const TABLE_2 = {
 
 export const EQUIVALENTS = [
   {
+    color: 'violet',
     text: 'kilo biff',
     icon: 'food',
     value: 13.3,
     calculate: (value) => value
   },
   {
+    color: 'yellow',
     text: 'egg',
-    icon: 'food',
+    icon: 'marker',
     value: 1.95,
     calculate: (value) => Math.round(value / 0.063)
   },
   {
-    text: 'kvm is smeltet',
+    color: 'blue',
+    text: 'kvm is smeltet i Arktis',
     icon: 'snowflake',
     value: 100,
     calculate: (value) => +(value / 3.29).toFixed(2)

@@ -17,3 +17,7 @@
 .ui.cards > .red.card, .ui.red.card, .ui.red.cards > .card {
   box-shadow: 0 0 0 1px #d4d4d5, 0 8px 0 0 #db2828, 0 1px 3px 0 #d4d4d5
 }
+
+.ui.attached.tabular.menu {
+  font-size: 1.5em
+}
